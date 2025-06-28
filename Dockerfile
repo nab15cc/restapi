@@ -8,6 +8,13 @@ RUN apt-get update && apt-get install -y \
 # Enable Apache rewrite module
 RUN a2enmod rewrite
 
+# Set document root to /var/www/html/public
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+
+# Update Apache config to use new document root
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf \
+    && sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
+
 # Copy project
 COPY . /var/www/html
 
@@ -24,5 +31,4 @@ RUN composer install --no-dev --optimize-autoloader
 RUN chown -R www-data:www-data /var/www/html \
     && chmod -R 755 /var/www/html/storage
 
-# Expose port
 EXPOSE 80
