@@ -43,6 +43,11 @@
                 </div>
                 <button type="submit" class="btn btn-primary w-100">Login</button>
             </form>
+            <p >
+                Akses Demo
+                Email: test@example.com
+                Password: 12345
+            </p>
         </div>
     </div>
 
